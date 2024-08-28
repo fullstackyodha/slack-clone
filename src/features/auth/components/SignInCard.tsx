@@ -12,14 +12,21 @@ import React, { useState } from 'react';
 import { Separator } from '@/components/ui/separator';
 import { FaGithub } from 'react-icons/fa6';
 import { SignInFlow } from '../types';
+import { useAuthActions } from '@convex-dev/auth/react';
 
 interface SignInCardProps {
 	setState: (state: SignInFlow) => void;
 }
 
 const SignInCard = ({ setState }: SignInCardProps) => {
+	const { signIn } = useAuthActions();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+
+	const handleProviderSignIn = (value: 'github' | 'google') => {
+		signIn(value);
+	};
 
 	return (
 		<Card className='w-full h-full p-8'>
@@ -64,7 +71,7 @@ const SignInCard = ({ setState }: SignInCardProps) => {
 						disabled={false}
 						variant={'outline'}
 						className='w-full relative'
-						onChange={(e) => {}}
+						onClick={() => handleProviderSignIn('google')}
 						size={'lg'}
 					>
 						<FcGoogle
@@ -78,7 +85,7 @@ const SignInCard = ({ setState }: SignInCardProps) => {
 						disabled={false}
 						variant={'outline'}
 						className='w-full relative'
-						onChange={(e) => {}}
+						onClick={() => handleProviderSignIn('github')}
 						size={'lg'}
 					>
 						<FaGithub
